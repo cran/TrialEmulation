@@ -1,6 +1,6 @@
 Package: TrialEmulation
 Title: Causal Analysis of Observational Time-to-Event Data
-Version: 0.0.3.2
+Version: 0.0.3.8
 Authors@R: c(
     person("Roonak", "Rezvani", , "roonak.r74@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-5580-5058", "Original package author")),
@@ -31,9 +31,9 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 LazyDataCompression: xz
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 NeedsCompilation: yes
-Packaged: 2023-08-24 11:17:25 UTC; Isaac
+Packaged: 2024-01-24 11:47:27 UTC; gravesti
 Author: Roonak Rezvani [aut] (<https://orcid.org/0000-0001-5580-5058>, Original
     package author),
   Isaac Gravestock [aut, cre] (<https://orcid.org/0000-0003-0283-2065>),
@@ -42,4 +42,4 @@ Author: Roonak Rezvani [aut] (<https://orcid.org/0000-0001-5580-5058>, Original
   F. Hoffmann-La Roche AG [cph, fnd]
 Maintainer: Isaac Gravestock <isaac.gravestock@roche.com>
 Repository: CRAN
-Date/Publication: 2023-08-25 07:40:02 UTC
+Date/Publication: 2024-01-24 13:53:00 UTC

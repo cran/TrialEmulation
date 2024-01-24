@@ -88,9 +88,9 @@ summary.TE_robust <- function(object, ...) {
 
 
 
-#' Print a Weight Summary Object
+#' Print a weight summary object
 #'
-#' @param x print.TE_weight_summary object.
+#' @param x print TE_weight_summary object.
 #' @param full Print full or short summary.
 #' @param ... Arguments passed to [print.data.frame].
 #' @export
@@ -107,27 +107,4 @@ print.TE_weight_summary <- function(x, full = TRUE, ...) {
       cat("Object saved at \"", x$path, "\"", sep = "")
     }
   }
-}
-
-
-#' Extract Weights
-#'
-#' @param object Object to extract weights from
-#' @param ... Not used.
-#'
-#' @export
-#' @importFrom stats weights
-#' @returns Weights extracted from `object` as a numeric vector.
-#' @rdname weights_TE
-weights.TE_data_prep_dt <- function(object, ...) {
-  object$data[["weight"]]
-}
-
-#' @export
-#' @rdname weights_TE
-weights.TE_data_prep_sep <- function(object, ...) {
-  warning(
-    "weights() not supported when data prepared with separate_files=TRUE.",
-    "Sample data first with case_control_sampling_trials()"
-  )
 }

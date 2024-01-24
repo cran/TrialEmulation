@@ -3,9 +3,9 @@
 \docType{data}
 \name{te_model_ex}
 \alias{te_model_ex}
-\title{Example of a Fitted MSM Model Object}
+\title{Example of a fitted marginal structural model object}
 \format{
-An object of class \code{TE_msm} of length 2.
+An object of class \code{TE_msm} of length 3.
 }
 \usage{
 te_model_ex

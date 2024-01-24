@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -23,11 +23,11 @@ result <- initiators(
   period = "period",
   eligible = "eligible",
   treatment = "treatment",
+  estimand_type = "ITT",
   outcome = "outcome",
   model_var = "assigned_treatment",
   outcome_cov = c("catvarA", "catvarB", "nvarA", "nvarB", "nvarC"),
-  use_censor = FALSE,
-  use_weight = FALSE
+  use_censor_weights = FALSE
 )
 
 ## ----initiators_summary-------------------------------------------------------
@@ -57,12 +57,12 @@ prep_data <- data_preparation(
   eligible = "eligible",
   treatment = "treatment",
   outcome = "outcome",
-  model_var = "assigned_treatment",
   outcome_cov = ~ catvarA + catvarB + nvarA + nvarB + nvarC,
   data_dir = working_dir,
   save_weight_models = TRUE,
-  use_censor = TRUE,
-  use_weight = TRUE,
+  estimand_type = "PP",
+  pool_cense = "none",
+  use_censor_weights = FALSE,
   chunk_size = 500,
   separate_files = TRUE,
   switch_n_cov = ~ nvarA + nvarB,
@@ -95,8 +95,6 @@ model_result <- trial_msm(
   data = sampled_data,
   outcome_cov = c("catvarA", "catvarB", "nvarA", "nvarB", "nvarC"),
   model_var = "assigned_treatment",
-  use_weight = TRUE,
-  use_censor = FALSE,
   glm_function = "glm",
   use_sample_weights = TRUE
 )
@@ -127,7 +125,7 @@ lines(model_preds$difference$followup_time, model_preds$difference$`97.5%`, lty 
 # clean up
 unlink(working_dir, recursive = TRUE)
 
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 options(old)
 data.table::setDTthreads(NULL)
 

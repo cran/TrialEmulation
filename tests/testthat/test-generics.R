@@ -10,12 +10,13 @@ test_that("summary for data_preparation separate=TRUE", {
     outcome = "Y",
     cense = "C",
     eligible = "eligible",
+    estimand_type = "PP",
     outcome_cov = ~X1,
     model_var = "assigned_treatment",
-    use_weight = TRUE,
-    use_censor = TRUE,
+    use_censor_weights = TRUE,
     cense_n_cov = ~X1,
     switch_n_cov = ~age_s,
+    pool_cense = "none",
     separate_files = TRUE,
     data_dir = save_dir,
     save_weight_models = TRUE,
@@ -35,7 +36,6 @@ test_that("summary for data_preparation separate=TRUE", {
     }
   )
   expect_snapshot(print(object$censor_models[[1]], full = FALSE, digits = 4))
-  expect_warning(weights(object), "not supported when data prepared with ")
 })
 
 test_that("summary for data_preparation separate=FALSE", {
@@ -51,9 +51,10 @@ test_that("summary for data_preparation separate=FALSE", {
     cense = "C",
     eligible = "eligible",
     outcome_cov = ~X1,
+    estimand_type = "As-Treated",
     model_var = c("assigned_treatment", "dose"),
-    use_weight = TRUE,
-    use_censor = FALSE,
+    use_censor_weights = TRUE,
+    pool_cense = "none",
     cense_n_cov = ~X1,
     switch_n_cov = ~age_s,
     separate_files = FALSE,
@@ -65,7 +66,6 @@ test_that("summary for data_preparation separate=FALSE", {
   expect_snapshot(summary(object, digits = 3))
   expect_snapshot(print(object$switch_models[[1]], digits = 4))
   expect_snapshot(print(object$switch_models[[1]], full = FALSE, digits = 4))
-  expect_snapshot(summary(weights(object), digits = 4))
 })
 
 
@@ -83,8 +83,9 @@ test_that("summary for initiators", {
       eligible = "eligible",
       outcome_cov = ~X1,
       model_var = c("assigned_treatment", "dose"),
-      use_weight = TRUE,
-      use_censor = FALSE,
+      estimand_type = "As-Treated",
+      pool = "none",
+      use_censor_weights = TRUE,
       cense_n_cov = ~X1,
       switch_n_cov = ~age_s,
       quiet = TRUE

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sampling.R
 \name{case_control_sampling_trials}
 \alias{case_control_sampling_trials}
-\title{Case-control sampling from extended data}
+\title{Case-control sampling of expanded data for the sequence of emulated trials}
 \usage{
 case_control_sampling_trials(
   data_prep,
@@ -14,20 +14,21 @@ case_control_sampling_trials(
 \arguments{
 \item{data_prep}{Result from \code{\link[=data_preparation]{data_preparation()}}.}
 
-\item{p_control}{Proportion of controls to select at each follow-up time of each trial.}
+\item{p_control}{Control sampling probability for selecting potential controls at each follow-up time of each trial.}
 
-\item{subset_condition}{Expression used to \code{\link[=subset]{subset()}} the trial data before sampling.}
+\item{subset_condition}{Expression used to \code{\link[=subset]{subset()}} the trial data before case-control sampling.}
 
-\item{sort}{Sort data before sampling. This ensures results are identical between data prepared with
-\code{separate_files} TRUE and FALSE.}
+\item{sort}{Sort data before applying case-control sampling to make sure that the resulting data are identical when
+sampling from the expanded data created with \code{separate_files = TRUE} or \code{separate_files = FALSE}.}
 }
 \value{
-A \code{data.frame} or a \code{\link[=split]{split()}} \code{data.frame} if  \code{length(p_control) > 1}. An additional column
-containing sample weights will be added to the result. These can be included in the models fit with
+A \code{data.frame} or a \code{\link[=split]{split()}} \code{data.frame} if  \code{length(p_control) > 1}. An additional column \code{sample_weight}
+containing the sample weights will be added to the result. These can be included in the models fit with
 \code{\link[=trial_msm]{trial_msm()}}.
 }
 \description{
-Case-control sampling from extended data
+Perform case-control sampling of expanded data to create a data set of reduced size and calculate sampling weights
+to be used in \code{trial_msm()}.
 }
 \examples{
 # If necessary reduce the number of threads for data.table
