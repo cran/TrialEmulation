@@ -1,6 +1,8 @@
-# TrialEmulation 0.0.3.8
+# TrialEmulation 0.0.3.9
 
 * Improve documentation
+
+* Fix partial matching in calls to data.table (thanks @joshhwuu)
 
 * Add `estimand_type` argument
 
