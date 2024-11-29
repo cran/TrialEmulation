@@ -298,3 +298,83 @@
       ]
     }
 
+# fit_msm works
+
+    Code
+      fm_01
+    Output
+      Trial Sequence Object 
+      Estimand: Intention-to-treat 
+       
+      Data: 
+       - N: 725 observations from 89 patients 
+              id period treatment    x1           x2    x3        x4   age      age_s
+           <int>  <int>     <num> <num>        <num> <int>     <num> <num>      <num>
+        1:     1      0         1     1  1.146148362     0 0.7342030    36 0.08333333
+        2:     1      1         1     1  0.002200337     0 0.7342030    37 0.16666667
+       ---                                                                           
+      724:    99      6         1     1 -0.033762356     1 0.5752681    71 3.00000000
+      725:    99      7         0     0 -1.340496520     1 0.5752681    72 3.08333333
+           outcome censored eligible time_on_regime        wt       wtC
+             <num>    <int>    <num>          <num>     <num>     <num>
+        1:       0        0        1              0 1.0111849 1.0111849
+        2:       0        0        0              1 0.9562510 0.9562510
+       ---                                                             
+      724:       0        0        0              1 0.9269537 0.9269537
+      725:       1        0        0              2 0.9448756 0.9448756
+       
+      IPW for informative censoring: 
+       - Numerator formula: 1 - censored ~ x3 
+       - Denominator formula: 1 - censored ~ x1 + x2 + x3 
+       - Numerator model is pooled across treatment arms. Denominator model is not pooled. 
+       - Model fitter type: te_stats_glm_logit 
+       - View weight model summaries with show_weight_models() 
+       
+      Sequence of Trials Data: 
+      - Chunk size: 500 
+      - Censor at switch: FALSE 
+      - First period: 0 | Last period: Inf 
+       
+      A TE Datastore CSV object 
+      N: 1558 observations 
+      Periods: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 
+      Path: 
+      Columns: id, trial_period, followup_time, outcome, weight, treatment, x1, x2, x3, assigned_treatment 
+       
+      Outcome model: 
+      - Formula: outcome ~ assigned_treatment + x1 + x2 + followup_time + x3 
+      - Treatment variable: assigned_treatment 
+      - Adjustment variables: x1 x2 x3 
+      - Model fitter type: te_stats_glm_logit 
+       
+      Model Summary: 
+       
+       term               estimate std.error statistic p.value conf.low conf.high
+       (Intercept)        -6.2053  0.846     -7.337    2.2e-13 -7.863   -4.548   
+       assigned_treatment  2.0802  0.603      3.451    5.6e-04  0.899    3.262   
+       x1                 -0.5030  0.543     -0.926    3.5e-01 -1.567    0.561   
+       x2                  0.1017  0.308      0.330    7.4e-01 -0.503    0.706   
+       followup_time      -0.0029  0.046     -0.062    9.5e-01 -0.094    0.088   
+       x3                  0.7231  0.713      1.014    3.1e-01 -0.675    2.121   
+       
+       null.deviance df.null logLik AIC BIC deviance df.residual nobs
+       148           1557    -74.8  162 194 136      1552        1558
+       
+      Outcome data 
+      N: 1558 observations from 89 patients in 18 trial periods 
+      Periods: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 
+               id trial_period followup_time outcome    weight treatment    x1
+            <int>        <int>         <int>   <int>     <num>     <int> <int>
+         1:     1            0             0       0 1.0000000         1     1
+         2:     1            0             1       0 0.9562510         1     1
+        ---                                                                   
+      1557:    54           17             1       0 0.9456885         0     0
+      1558:    54           17             2       0 0.9373179         0     0
+                  x2    x3 assigned_treatment sample_weight         w
+               <num> <int>              <int>         <num>     <num>
+         1: 1.146148     0                  1             1 1.0000000
+         2: 1.146148     0                  1             1 0.9562510
+        ---                                                          
+      1557: 1.846423     1                  1             1 0.9456885
+      1558: 1.846423     1                  1             1 0.9373179
+

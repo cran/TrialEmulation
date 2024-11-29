@@ -1,4 +1,9 @@
+#' @include trial_sequence.R generics.R
+NULL
+
 #' Fit the marginal structural model for the sequence of emulated trials
+#'
+#' `r lifecycle::badge('stable')`
 #'
 #' Apply a weighted pooled logistic regression to fit the marginal structural model for the sequence of emulated trials
 #' and calculates the robust covariance matrix  of parameter using the sandwich estimator.
@@ -173,3 +178,37 @@ trial_msm <- function(data,
   class(result) <- c("TE_msm")
   result
 }
+
+
+#' @rdname fit_msm
+setMethod(
+  f = "fit_msm",
+  signature = "trial_sequence",
+  definition = function(object, weight_cols, modify_weights) {
+    if (is(object@outcome_model, "te_outcome_unset")) stop("outcome_model not set, please run set_outcome_model")
+    if (object@expansion@datastore@N == 0) stop("datastore is empty, please run expand_trials")
+    if (!length(object@outcome_data@n_rows)) stop("outcome_data is empty, please run load_expanded_data")
+
+    if (!is.null(weight_cols)) {
+      assert_subset(weight_cols, choices = colnames(outcome_data(object)))
+      object@outcome_data@data$w <- object@outcome_data@data[, Reduce(`*`, .SD), .SDcols = weight_cols]
+    } else {
+      object@outcome_data@data$w <- 1
+    }
+
+    if (!is.null(modify_weights)) {
+      assert_function(modify_weights)
+      temp_weights <- modify_weights(object@outcome_data@data$w)
+      assert_numeric(temp_weights, lower = 0, finite = TRUE)
+      object@outcome_data@data$w <- temp_weights
+    }
+
+    object@outcome_model@fitted <- fit_outcome_model(object@outcome_model@model_fitter,
+      data = object@outcome_data@data,
+      formula = object@outcome_model@formula,
+      weights = object@outcome_data@data$w
+    )
+
+    object
+  }
+)

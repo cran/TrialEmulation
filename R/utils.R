@@ -111,6 +111,15 @@ add_rhs <- function(f1, f2) {
   update.formula(f1, substitute(~ . + add, list(add = formula.tools::rhs(f2))))
 }
 
+#' Get variables from RHS of formula
+#' @noRd
+rhs_vars <- function(f) {
+  setdiff(
+    all.vars(f),
+    formula.tools::lhs.vars(f)
+  )
+}
+
 #' Extract Baseline Observations
 #'
 #' @param trial_file Path to an expanded trial csv file
@@ -133,4 +142,28 @@ extract_baseline <- function(trial_file, baseline_file, quiet = TRUE) {
   } else {
     assert_file_exists(trial_file)
   }
+}
+
+#' Concatenate and Print with Final NewLine
+#'
+#' @inheritParams base::cat
+#'
+#' @details Simply passes arguments to `cat` with an additional `"\n"` after all arguments.
+#'
+#' @returns None (invisible NULL)
+#' @noRd
+catn <- function(...) {
+  cat(..., "\n")
+}
+
+
+#' Drop paths in snapshot tests
+#'
+#' @param x snapshot
+#'
+#' @return snapshot without paths
+#' @noRd
+drop_path <- function(x) {
+  output <- sub("Path: [[:graph:]]*", "Path:", x)
+  output
 }

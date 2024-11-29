@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Extending-TrialEmulation</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Extending-TrialEmulation</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#model-fitters" id="toc-model-fitters">Model fitters</a>
+<ul>
+<li><a href="#classes-and-slots" id="toc-classes-and-slots">Classes and
+Slots</a></li>
+<li><a href="#user-constructor" id="toc-user-constructor">User
+Constructor</a></li>
+<li><a href="#methods" id="toc-methods">Methods</a></li>
+</ul></li>
+<li><a href="#data-stores" id="toc-data-stores">Data Stores</a>
+<ul>
+<li><a href="#classes-and-slots-1" id="toc-classes-and-slots-1">Classes
+and Slots</a></li>
+<li><a href="#user-constructor-1" id="toc-user-constructor-1">User
+Constructor</a></li>
+<li><a href="#methods-1" id="toc-methods-1">Methods</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Due to the extensive use of classes, TrialEmulation can be expanded
+by the user to fit their own specific needs.</p>
+<p>This document gives a quick overview of the extensible classes, the
+current implementations and the requirements for adding your own child
+classes.</p>
+<p>This vignette describes two areas where new functionality could be
+implemented: <a href="#model-fitters">regression model fitting</a> and
+<a href="#data-stores">data storage</a>.</p>
+</div>
+<div id="model-fitters" class="section level2">
+<h2>Model fitters</h2>
+<div id="classes-and-slots" class="section level3">
+<h3>Classes and Slots</h3>
+<p>Three classes are required implementing a model fitter:</p>
+<ul>
+<li><strong>te_model_fitter</strong>: Parent class. This class is
+virtual so no object can be created with this class. It exists to allow
+the definition of child classes.
+<ul>
+<li><span class="citation">@save_path</span> A path to a directory for
+saving models</li>
+</ul></li>
+<li><strong>te_outcome_fitted</strong>: Parent class. This class
+contains the results of the fitting an outcome model. A class inheriting
+from <code>te_outcome_fitted</code> must be defined for a new model
+fitter implementation.
+<ul>
+<li><span class="citation">@model</span>: A list containing the fitted
+model objects</li>
+<li><span class="citation">@summary</span>: A list of data frames
+containing a summary of the fitted model (<code>tidy</code>,
+<code>glance</code>) and the saved file (<code>save_path</code>)</li>
+</ul></li>
+<li><strong>te_weights_fitted</strong>: Parent class. This class
+contains the results of the fitting a weight model.
+<ul>
+<li><span class="citation">@label</span>: A label which is supplied to
+the fitting function to describe the model</li>
+<li><span class="citation">@summary</span>: A list of data frames
+containing a summary of the fitted model (<code>tidy</code>,
+<code>glance</code>) and the saved file (<code>save_path</code>)</li>
+<li><span class="citation">@fitted</span>: The fitted values (predicted
+probabilities)</li>
+</ul></li>
+</ul>
+<p>Currently only one model fitter class is implemented:</p>
+<ul>
+<li><strong>te_stats_glm_logit</strong>: Models are fit using
+<code>stats::glm(..., family = binomial(&quot;logit&quot;))</code>
+<ul>
+<li><span class="citation">@save_path</span> A path to a directory for
+saving models</li>
+</ul></li>
+<li><strong>te_stats_glm_logit_outcome_fitted</strong>: The results of
+fitting the pooled logistic regression model.
+<ul>
+<li><span class="citation">@model</span>: list containing
+<code>model</code>, the result of <code>glm()</code>, and
+<code>vcov</code>, the robust covariance matrix</li>
+<li><span class="citation">@summary</span>: list of data frames
+<code>tidy</code>, <code>glance</code> and <code>save_path</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="user-constructor" class="section level3">
+<h3>User Constructor</h3>
+<p>A user constructor is required to specify the model fitter type in
+<code>set_censor_weight_model()</code>,
+<code>set_switch_weight_model()</code> and
+<code>set_outcome_model()</code>. Each is specified independently. The
+user constructor should have arguments for any required model fitting
+(hyper-)parameters as well as a path for saving the model objects.</p>
+<p>See <code>stats_glm_logit()</code> for a simple implementation.</p>
+</div>
+<div id="methods" class="section level3">
+<h3>Methods</h3>
+<p>There are 3 generic methods that are required when implementing a new
+model, <code>fit_weights_model()</code>,
+<code>fit_outcome_model()</code>, and <code>predict()</code>.</p>
+<div id="fit_weights_model" class="section level4">
+<h4>fit_weights_model</h4>
+<p>This method uses the model object to fit a model for probability of
+censoring and returns the fitted probabilities which are later combined
+and used to construct the inverse probability of censoring weights. The
+method should also save the fitted model object to disk if a save path
+is specified.</p>
+<ul>
+<li><strong>Arguments</strong>
+<ul>
+<li>object: the <code>te_model_fitter</code> object</li>
+<li>data: <code>data.frame</code> containing the outcome (here the
+censoring indicator) and covariate data</li>
+<li>formula: the model formula</li>
+<li>label: a <code>character</code> label describing the model to be
+attached to the result</li>
+</ul></li>
+<li><strong>Returns</strong>: a <code>te_weights_fitted</code> object
+containing a summary of the fitted model and the fitted
+probabilities.</li>
+</ul>
+</div>
+<div id="fit_outcome_model" class="section level4">
+<h4>fit_outcome_model</h4>
+<p>This method fits the outcome model. object, data, formula, weights =
+NULL - <strong>Arguments</strong> - object: the
+<code>te_model_fitter</code> object - data: <code>data.frame</code>
+containing the outcome and covariate data - formula: the model formula -
+weights: a numeric vector containing weights for all observations in
+<code>data</code> - <strong>Returns</strong>: The fitted model as an
+object inheriting from a <code>te_outcome_fitted</code> child class
+corresponding to the fitter model class used. This object contains a
+summary of the results as well as the raw result from the model.</p>
+</div>
+<div id="predict" class="section level4">
+<h4>predict</h4>
+<p>This method calculates the marginal survival or cumulative incidences
+based on the outcome model object. The method should take the baseline
+covariates and construct data for <code>assigned_treatment = 0</code>
+and <code>1</code> as well as the follow up times given in
+<code>predict_times</code>.</p>
+<ul>
+<li><strong>Arguments</strong>
+<ul>
+<li>object: the fitted model object inheriting from
+<code>te_outcome_fitted</code>, eg
+<code>te_stats_glm_logit_outcome_fitted</code></li>
+<li>newdata: a <code>data.frame</code> containing baseline covariates to
+predict probabilities for</li>
+<li>predict_times: a contiguous numeric vector of times to calculate
+predictions for</li>
+<li>type: a string indicating the type of prediction to calculate:
+<code>&quot;cum_inc&quot;</code> or <code>&quot;survival&quot;</code></li>
+<li>conf_int: logical indicating whether or not to calculate the 95%
+confidence interval</li>
+<li>samples: an integer giving the number of iterations used to
+calculate the confidence interval using a sampling approach</li>
+</ul></li>
+<li><strong>Returns</strong>: a list containing the predicted values for
+assigned treatment 0, 1 and the difference between them.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="data-stores" class="section level2">
+<h2>Data Stores</h2>
+<p>The sequence of target trials dataset is much larger than the input
+longitudinal data. If the original input data is already large compared
+to the available system memory, an alternative data storage mechanism
+might be desirable. Currently the package offers
+<code>data.table</code>, <code>csv</code>, and <code>duckdb</code>. Here
+we describe the implementation of “data stores”.</p>
+<p>In order to add a new data store, a child class must be defined that
+inherits from class <code>te_datastore</code>. You must also add at
+least a new constructor <code>save_to_xxx()</code> as well as new
+methods for <code>save_expanded_data()</code> and
+<code>read_expanded_data()</code>.</p>
+<p>A new method for <code>sample_expanded_data()</code> is optional
+(e.g. in case sampling is not required or the implemented method for
+<code>te_datastore</code> is sufficient, see below under
+<em>sample_expanded_data</em>), but it will be necessary for large
+datasets.</p>
+<div id="classes-and-slots-1" class="section level3">
+<h3>Classes and Slots</h3>
+<ul>
+<li><strong>te_datastore</strong>: Parent class, placed as a place
+holder in <code>trial_sequence</code> objects before setting expansion
+options, will be replaced with the corresponding child class when
+expansion options are set.
+<ul>
+<li><span class="citation">@N</span>: Number of observations</li>
+</ul></li>
+</ul>
+<p>Currently the following Data Store child classes are available for
+saving expanded data:</p>
+<ul>
+<li><strong>te_datastore_csv</strong>: Expanded data is saved as csv
+files, one file per trial period. When reading the data, only the files
+corresponding to the selected trial periods are read.
+<ul>
+<li><span class="citation">@path</span>: Path to temp folder containing
+the csv files</li>
+<li><span class="citation">@files</span>: Paths to all available
+files</li>
+<li><span class="citation">@template</span>: empty
+<code>data.frame</code>, used as a template when reading the data to
+preserve types and attributes</li>
+<li><span class="citation">@N</span>: inherited from
+<code>te_datastore</code></li>
+</ul></li>
+<li><strong>te_datastore_datatable</strong>: Expanded data is saved as a
+<code>data.table</code> in memory, only viable for smaller datasets.
+<ul>
+<li><span class="citation">@data</span>: <code>data.table</code>
+containing expanded data</li>
+<li><span class="citation">@N</span>: inherited from
+<code>te_datastore</code></li>
+</ul></li>
+<li><strong>te_datastore_duckdb</strong>: Expanded data is saved as a
+DuckDB file containing all trial periods. Reading, subsetting and
+sampling can be done efficiently with an SQL query (currently
+constructed with a translator helper function).
+<ul>
+<li><span class="citation">@path</span>: Path of the DuckDB file</li>
+<li><span class="citation">@table</span>: The table name</li>
+<li><span class="citation">@con</span>: A duckdb connection object, used
+to query and write to the database</li>
+<li><span class="citation">@N</span>: inherited from
+<code>te_datastore</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="user-constructor-1" class="section level3">
+<h3>User Constructor</h3>
+<p>The user constructor function is used in
+<code>set_expansion_options()</code> to replace the
+<code>te_datastore</code> object in
+<code>trial_sequence@expansion@datastore</code> with an object of the
+desired child class. The user constructor allows the user to specify any
+parameters required for the data store, such as file path, or
+username/password. Saving of the data happens later when calling
+<code>expand_trials()</code> which internally calls the corresponding
+<code>save_expanded_data()</code> method.</p>
+<p>See the following currently available constructor functions for
+further insights: <code>save_to_csv()</code>,
+<code>save_to_datatable()</code>, <code>save_to_duckdb()</code></p>
+</div>
+<div id="methods-1" class="section level3">
+<h3>Methods</h3>
+<p>There are four generic methods that are defined for the
+<code>te_datastore</code> class.</p>
+<div id="show" class="section level4">
+<h4>show</h4>
+<p>This method prints a simple summary or extract from the data.
+<em>Note:</em> Since the child classes differ quite significantly from
+each other, every child class has its own show method. There is no show
+method for the <code>te_datastore</code> parent class.</p>
+</div>
+<div id="save_expanded_data" class="section level4">
+<h4>save_expanded_data</h4>
+<p>This method defines how the expanded data gets saved. Method is
+chosen based on the <code>te_datastore</code> child class. It gets
+called internally by <code>expand_trials()</code>. For large datasets
+<code>save_expanded_data()</code> may be called multiple times, so the
+method must be able to “append” data in some way.</p>
+<ul>
+<li><strong>Arguments</strong>
+<ul>
+<li>object: a <code>te_datastore</code> child class object</li>
+<li>data: <code>data.table</code> to be saved to the data store</li>
+</ul></li>
+<li><strong>Returns</strong>: a modified <code>te_datastore</code> child
+class object</li>
+</ul>
+</div>
+<div id="read_expanded_data" class="section level4">
+<h4>read_expanded_data</h4>
+<p>This method is used for reading the expanded data into memory. The
+data can be subset by period or any other subset condition. It gets
+called internally by <code>load_expanded_data()</code> if
+<code>p_control</code> isn’t specified, and by
+<code>sample_expanded_data()</code> if no specific sampling method
+exists for a <code>te_datastore</code> child class.</p>
+<ul>
+<li><strong>Arguments</strong>
+<ul>
+<li>object: a <code>te_datastore</code> child class object</li>
+<li>period: “integerish” vector to select trial periods, if missing
+defaults to <code>NULL</code> and selects all available trial
+periods</li>
+<li>subset_condition: subset condition as a string, if missing defaults
+to <code>NULL</code> and skips subsetting</li>
+</ul></li>
+<li><strong>Returns</strong>: a <code>data.table</code> object</li>
+</ul>
+</div>
+<div id="sample_expanded_data" class="section level4">
+<h4>sample_expanded_data</h4>
+<p>This method is used for reading and sampling the expanded data. The
+data can be subset by period or any other subset condition plus it can
+be sampled using the <code>p_control</code> argument. It gets called
+internally by <code>load_expanded_data()</code> if
+<code>p_control</code> is specified.</p>
+<p>If no method for the child class exists, the method of the parent
+class will be used instead which will read and subset the data using
+<code>read_expanded_data()</code>. Then the sampling happens in bulk,
+which might cause problems for large datasets. For speed or memory
+reasons it might be necessary to implement a more efficient method for a
+new child class.</p>
+<ul>
+<li><strong>Arguments</strong>
+<ul>
+<li>object: a <code>te_datastore</code> child class object</li>
+<li>p_control: numeric value between 0 and 1, probability to sample a
+control value</li>
+<li>period: integerish vector to select trial periods, if missing
+defaults to <code>NULL</code> and selects all available trial
+periods</li>
+<li>subset_condition: subset condition as a string, if missing defaults
+to <code>NULL</code> and skips subsetting</li>
+<li>seed: a seed to be used for sampling, if missing sampling is
+randomised</li>
+</ul></li>
+<li><strong>Returns</strong>: a <code>data.table</code> object</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

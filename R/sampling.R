@@ -1,5 +1,7 @@
 #' Case-control sampling of expanded data for the sequence of emulated trials
 #'
+#' `r lifecycle::badge('stable')`
+#'
 #' Perform case-control sampling of expanded data to create a data set of reduced size and calculate sampling weights
 #' to be used in `trial_msm()`.
 #'
@@ -139,4 +141,65 @@ do_sampling <- function(data, p_control = 0.01) {
   set(dataall, j = "sample_weight", value = c(rep(1, ncase), rep(1 / p_control, n_sample)))
 
   dataall
+}
+
+
+#' @rdname sample_expanded_data
+#' @include trial_sequence.R
+setMethod(
+  f = "sample_expanded_data",
+  signature = "te_datastore",
+  definition = function(object, p_control, period, subset_condition = NULL, seed) {
+    old_seed <- globalenv()$.Random.seed
+    on.exit(suspendInterrupts(set_random_seed(old_seed)))
+    set.seed(seed)
+
+    data <- read_expanded_data(object, period = period, subset_condition = subset_condition)
+    data <- lapply(
+      split(data, list(data$trial_period, data$followup_time), drop = TRUE),
+      do_sampling,
+      p_control = p_control
+    )
+    data_table <- data.table::rbindlist(data)
+    data_table
+  }
+)
+
+
+#' @rdname sample_controls
+#' @noRd
+setMethod(
+  f = "sample_controls",
+  signature = "trial_sequence",
+  definition = function(object, p_control, period, subset_condition, seed) {
+    checkmate::assert_count(object@expansion@datastore@N, positive = TRUE)
+    checkmate::assert_number(p_control, lower = 0, upper = 1)
+    checkmate::assert_integerish(period, null.ok = TRUE, any.missing = FALSE, lower = 0)
+    if (!is.null(subset_condition)) {
+      checkmate::assert_string(subset_condition, null.ok = TRUE)
+    }
+
+    checkmate::assert_integerish(seed, null.ok = TRUE, len = 1, any.missing = FALSE)
+
+    data_table <- sample_expanded_data(
+      object@expansion@datastore,
+      period = period,
+      subset_condition = subset_condition,
+      p_control = p_control,
+      seed = seed
+    )
+    object@outcome_data <- te_outcome_data(data_table, p_control, subset_condition)
+
+    object
+  }
+)
+
+
+# Restore the RNG back to a previous state using the global .Random.seed
+set_random_seed <- function(old_seed) {
+  if (is.null(old_seed)) {
+    rm(".Random.seed", envir = globalenv(), inherits = FALSE)
+  } else {
+    assign(".Random.seed", value = old_seed, envir = globalenv(), inherits = FALSE)
+  }
 }
