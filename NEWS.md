@@ -1,3 +1,7 @@
+# TrialEmulation 0.0.4.2
+
+* Update tests for duckdb 1.2.0 changes to sampling.
+
 # TrialEmulation 0.0.4.0
 
 * Add new extensible S4 class based interface.

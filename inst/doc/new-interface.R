@@ -101,26 +101,26 @@ trial_itt <- set_expansion_options(
 )
 
 ## ----eval = FALSE-------------------------------------------------------------
-#  trial_pp <- trial_pp |>
-#    set_expansion_options(
-#      output = save_to_csv(file.path(trial_pp_dir, "trial_csvs")),
-#      chunk_size = 500
-#    )
-#  
-#  trial_itt <- set_expansion_options(
-#    trial_itt,
-#    output = save_to_csv(file.path(trial_itt_dir, "trial_csvs")),
-#    chunk_size = 500
-#  )
-#  
-#  trial_itt <- set_expansion_options(
-#    trial_itt,
-#    output = save_to_duckdb(file.path(trial_itt_dir, "trial_duckdb")),
-#    chunk_size = 500
-#  )
-#  
-#  # For the purposes of this vignette the previous `save_to_datatable()` output
-#  # option is used in the following code.
+# trial_pp <- trial_pp |>
+#   set_expansion_options(
+#     output = save_to_csv(file.path(trial_pp_dir, "trial_csvs")),
+#     chunk_size = 500
+#   )
+# 
+# trial_itt <- set_expansion_options(
+#   trial_itt,
+#   output = save_to_csv(file.path(trial_itt_dir, "trial_csvs")),
+#   chunk_size = 500
+# )
+# 
+# trial_itt <- set_expansion_options(
+#   trial_itt,
+#   output = save_to_duckdb(file.path(trial_itt_dir, "trial_duckdb")),
+#   chunk_size = 500
+# )
+# 
+# # For the purposes of this vignette the previous `save_to_datatable()` output
+# # option is used in the following code.
 
 ## -----------------------------------------------------------------------------
 trial_pp <- expand_trials(trial_pp)
