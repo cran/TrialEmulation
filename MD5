@@ -1,6 +1,6 @@
-3babf9b1b697c2f390dbd1566d9e66e6 *DESCRIPTION
+6071ce3a10c5fd0797073590141c5099 *DESCRIPTION
 14e2bd4eb5712af8f3d1a2ddd37605c4 *NAMESPACE
-2dca7b4a0cb1ba4678915d8748c156e1 *NEWS.md
+9c0fc88f86ebb5463fd4389f9f596c24 *NEWS.md
 1c822b93914103f45cb0890cc229256d *R/RcppExports.R
 ff1bda53cda25ed5d875bab9d630e508 *R/calculate_weights.R
 b028fd33c2763d50c1a3d0cd5792cb9a *R/data.R
@@ -43,11 +43,11 @@ cb8e59f0ab2199121f60560664d27657 *inst/WORDLIST
 1ff753046b624dccf4038522f30fc7bb *inst/doc/Extending-TrialEmulation.Rmd
 e73ead5c49752c20dbe1235e9f827347 *inst/doc/Extending-TrialEmulation.html
 a1b9ec200abf2f821e99fa4283a9295a *inst/doc/Getting-Started.R
-30db3d0fe824cf4da867d4ab544ce7d6 *inst/doc/Getting-Started.Rmd
-672645f44e98f1cbbbf313fee1fb8b15 *inst/doc/Getting-Started.html
+38c94f0f24ad1e2aa3a55d1bc1854b11 *inst/doc/Getting-Started.Rmd
+7bde82d2e969a1381cb91fede7367788 *inst/doc/Getting-Started.html
 2684969576f951644c14b0c51222e921 *inst/doc/new-interface.R
 291a88920c63038477e6a3afd4c75e7c *inst/doc/new-interface.Rmd
-c9c79d38835cdc4dc8e45d60e092e8c9 *inst/doc/new-interface.html
+0a6822f972a3069e95126fc6f5bf69bf *inst/doc/new-interface.html
 bde3f79fef7bc77ca4ddb8bb8de26bed *man/TrialEmulation-package.Rd
 7d85119a7e277ca3c696559295a40824 *man/calculate_predictions.Rd
 48100849744959a765ea5608ea29eed3 *man/calculate_weights.Rd
@@ -134,7 +134,7 @@ cf281b127ceffb8d6eb89efd095ec20f *tests/testthat/data/raw_data.rds
 fd228f717e6c2d326a22a26bd9a8dfaf *tests/testthat/data/ready_for_modelling.rds
 0cdd51c956eb7f6c6f036cb9e6944c24 *tests/testthat/test-data_extension.R
 0089978f520f44be4a006a9d4d45a730 *tests/testthat/test-data_manipulation.R
-488eccda3c37831c775e8b38f3006669 *tests/testthat/test-data_preparation.R
+4e9955341dd4881c3c67648a65fe53d3 *tests/testthat/test-data_preparation.R
 8a8667d7ad4dc7c6c0ee74164cf6a081 *tests/testthat/test-data_utils.R
 52657ce0b1359024aaa85674df02dcfb *tests/testthat/test-generics.R
 8fea1097d61ec98ea0177151c5da3828 *tests/testthat/test-lr_utils.R
@@ -152,7 +152,7 @@ efbcba60fc8666c04efeebff83ea1c71 *tests/testthat/test-te_parsnip.R
 a89cbee72d5c4e43081b579382fbf1af *tests/testthat/test-trial_sequence.R
 2fc5e83a0f7801f247766bf982be67be *tests/testthat/test-utils.R
 1ff753046b624dccf4038522f30fc7bb *vignettes/Extending-TrialEmulation.Rmd
-30db3d0fe824cf4da867d4ab544ce7d6 *vignettes/Getting-Started.Rmd
+38c94f0f24ad1e2aa3a55d1bc1854b11 *vignettes/Getting-Started.Rmd
 6159f3d53441189cf48dcba46a5c0ef0 *vignettes/img/trial_sequence_functions_overview_solid.png
 9bbb00111fa28a0f076e38cc658289c8 *vignettes/img/trial_sequence_functions_overview_transparent.png
 291a88920c63038477e6a3afd4c75e7c *vignettes/new-interface.Rmd

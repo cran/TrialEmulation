@@ -1,6 +1,6 @@
 Package: TrialEmulation
 Title: Causal Analysis of Observational Time-to-Event Data
-Version: 0.0.4.5
+Version: 0.0.4.8
 Authors@R: c(
     person("Isaac", "Gravestock", , "isaac.gravestock@roche.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0283-2065")),
@@ -33,7 +33,7 @@ Encoding: UTF-8
 Language: en-GB
 LazyData: true
 LazyDataCompression: xz
-RoxygenNote: 7.3.2.9000
+RoxygenNote: 7.3.3
 Collate: 'RcppExports.R' 'calculate_weights.R' 'data.R'
         'data_extension.R' 'data_manipulation.R' 'data_preparation.R'
         'data_simulation.R' 'data_utils.R' 'expand_trials.R'
@@ -44,7 +44,7 @@ Collate: 'RcppExports.R' 'calculate_weights.R' 'data.R'
         'te_datastore_csv.R' 'te_datastore_duckdb.R' 'te_parsnip.R'
         'te_stats_glm_logit.R' 'utils.R' 'weighting.R'
 NeedsCompilation: yes
-Packaged: 2025-06-13 07:54:25 UTC; root
+Packaged: 2025-11-18 15:03:43 UTC; root
 Author: Isaac Gravestock [aut, cre] (ORCID:
     <https://orcid.org/0000-0003-0283-2065>),
   Li Su [aut],
@@ -55,4 +55,4 @@ Author: Isaac Gravestock [aut, cre] (ORCID:
   F. Hoffmann-La Roche AG [cph, fnd]
 Maintainer: Isaac Gravestock <isaac.gravestock@roche.com>
 Repository: CRAN
-Date/Publication: 2025-06-13 10:10:08 UTC
+Date/Publication: 2025-11-19 08:50:02 UTC
